@@ -1,0 +1,131 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:placement/data/repository/homepage_repository/lecture_repository.dart';
+import 'package:placement/view_models/controller/home_controller/lecture_controller.dart';
+import 'package:placement/resource/urllouncher_helper.dart';
+import 'package:placement/resource/components/buttons_components/simple_button.dart';
+
+class LectureScreen extends StatelessWidget {
+  final LectureController controller = Get.put(
+    LectureController(repository: LectureRepository()),
+  );
+
+  final TextEditingController searchController = TextEditingController();
+
+  LectureScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    ScreenUtil.init(context, designSize: const Size(360, 690), minTextAdapt: true);
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text(
+          "Lectures",
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(12.w),
+        child: Column(
+          children: [
+            TextField(
+              controller: searchController,
+              decoration: InputDecoration(
+                hintText: "Search Lecture or Lecturer...",
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    controller.searchLecture(searchController.text.trim());
+                  },
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
+            ),
+            SizedBox(height: 12.h),
+            Expanded(
+              child: Obx(() {
+                if (controller.isLoading.value) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (controller.lectures.isEmpty) {
+                  return Center(child: Text("No lectures found", style: TextStyle(fontSize: 14.sp)));
+                }
+
+                return ListView.builder(
+                  itemCount: controller.lectures.length,
+                  itemBuilder: (context, index) {
+                    final lecture = controller.lectures[index];
+                    return Card(
+                      color: Colors.white,
+                      margin: EdgeInsets.symmetric(vertical: 8.h),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                      elevation: 0,
+                      child: Padding(
+                        padding: EdgeInsets.all(16.w),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    lecture.title,
+                                    style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(height: 6.h),
+                                  Text(
+                                    lecture.lecturer,
+                                    style: TextStyle(fontSize: 14.sp, color: Colors.black54),
+                                  ),
+                                  SizedBox(height: 12.h),
+                                  Text(lecture.details, style: TextStyle(fontSize: 14.sp)),
+                                  SizedBox(height: 12.h),
+                                  CustomButton(
+                                    text: "Watch on YouTube",
+                                    onPressed: () async {
+                                      String link = lecture.youtubeLink.trim();
+                                      if (link.isEmpty || !link.startsWith("http")) {
+                                        Get.snackbar("Error", "YouTube link not available");
+                                        return;
+                                      }
+                                      await UrlLauncherHelper.openUrl(link);
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 16.w),
+                            Container(
+                              width: 60.w,
+                              height: 60.h,
+                              decoration: BoxDecoration(
+                                color: Colors.teal.shade700,
+                                borderRadius: BorderRadius.circular(12.r),
+                              ),
+                              child: Icon(Icons.video_collection, color: Colors.white, size: 30.sp),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
