@@ -5,7 +5,7 @@ import 'package:placement/resource/url/config.dart';
 
 class JobRepository {
   Future<Job> fetchLatestJob() async {
-    final prompt = "Generate 1 latest job from Naukri.com in JSON format with title, company, deadline, image and applyLink";
+    final prompt = "Generate 1 latest job from Naukri.com in JSON format with title, company, deadline, and applyLink";
 
     final body = jsonEncode({
       "contents": [
@@ -51,7 +51,6 @@ class JobRepository {
         company: "TCS",
         title: "Software Engineer",
         applyLink: "https://www.tcs.com/careers",
-        image: "assets/png/placementdrive.png",
         deadline: "10 Oct 2025",
       );
     }

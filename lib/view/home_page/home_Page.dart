@@ -14,26 +14,25 @@ import 'package:placement/view/home_page/Aichats.dart';
 import 'package:placement/view/upcoming_event/upcoming_event_list.dart';
 import 'package:placement/view_models/controller/home_controller/home_controller.dart';
 import 'package:placement/view_models/controller/home_controller/upcoming_controller.dart';
-import 'package:placement/data/repository/upcomig_repository.dart';
 import 'package:placement/resource/components/custom_bottom/custom_bottom_navbar.dart';
+import '../../view_models/user_controller/user_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
 
-  // Use Get.find instead of Get.put
   final HomeController controller = Get.find<HomeController>();
+  final UserController userController = Get.find<UserController>();
   final UpcomingEventController upcomingController = Get.find<UpcomingEventController>();
 
   @override
   Widget build(BuildContext context) {
-    // Initialize ScreenUtil for responsive sizing
-    ScreenUtil.init(context, designSize: const Size(360, 690), minTextAdapt: true);
+    // Don't call ScreenUtil.init here! Use ScreenUtilInit in main.dart
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         scrolledUnderElevation: 0,
-        title: const Text("Hi, Alex!"),
+        title: Obx(() => Text("Hi, ${userController.userName}!")),
         elevation: 0,
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
@@ -44,67 +43,70 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.w), // Using ScreenUtil for padding
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SectionTitle(title: "Placement Drives"),
-            PlacementDriveWidget(),
-            SizedBox(height: 20.h),
+      body: ListView(
+        padding: EdgeInsets.all(16.w),
+        children: [
+          // Placement Drives
+          const SectionTitle(title: "Placement Drives"),
+          PlacementDriveWidget(),
+          SizedBox(height: 20.h),
 
-            const SectionTitle(title: "Mock Tests"),
-            const MockTestWidget(),
-            SizedBox(height: 20.h),
+          // Mock Tests
+          const SectionTitle(title: "Mock Tests"),
+          const MockTestWidget(),
+          SizedBox(height: 20.h),
 
-            const SectionTitle(title: "Resume Builder"),
-            const ResumeBuilderWidget(),
-            SizedBox(height: 20.h),
+          // Resume Builder
+          const SectionTitle(title: "Resume Builder"),
+          const ResumeBuilderWidget(),
+          SizedBox(height: 20.h),
 
-            const SectionTitle(title: "Upcoming Events"),
-            Obx(() {
-              if (upcomingController.isLoading.value) {
-                return const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-
-              if (upcomingController.events.isNotEmpty) {
-                final topEvent = upcomingController.events.first;
-
-                return Column(
-                  children: [
-                    UpcomingEventWidget(
-                      title: topEvent.title,
-                      date: topEvent.date,
-                      link: topEvent.link,
-                      isNavigation: false,
-                    ),
-                    SizedBox(height: 12.h),
-                    CustomButton(
-                      text: "See All Exams",
-                      onPressed: () {
-                        Get.toNamed(AppRouteNames.UpcomingEvent);
-                      },
-                    ),
-                  ],
-                );
-              }
-
-              return const Text(
-                "No upcoming events found.",
-                style: TextStyle(fontSize: 14, color: Colors.black54),
+          // Upcoming Events
+          const SectionTitle(title: "Upcoming Events"),
+          Obx(() {
+            if (upcomingController.isLoading.value) {
+              return const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: CircularProgressIndicator(),
+                ),
               );
-            }),
+            }
 
-            SizedBox(height: 20.h),
-            const SectionTitle(title: "Lectures"),
-            const LectureWidget(),
-          ],
-        ),
+            if (upcomingController.events.isNotEmpty) {
+              final topEvent = upcomingController.events.first;
+
+              return Column(
+                children: [
+                  UpcomingEventWidget(
+                    title: topEvent.title,
+                    date: topEvent.date,
+                    link: topEvent.link,
+                    isNavigation: false,
+                  ),
+                  SizedBox(height: 12.h),
+                  CustomButton(
+                    text: "See All Exams",
+                    onPressed: () {
+                      Get.toNamed(AppRouteNames.UpcomingEvent);
+                    },
+                  ),
+                ],
+              );
+            }
+
+            return const Text(
+              "No upcoming events found.",
+              style: TextStyle(fontSize: 14, color: Colors.black54),
+            );
+          }),
+          SizedBox(height: 20.h),
+
+          // Lectures
+          const SectionTitle(title: "Lectures"),
+          const LectureWidget(),
+          SizedBox(height: 80.h), // Add bottom spacing so FAB doesn't overlap
+        ],
       ),
       floatingActionButton: Align(
         alignment: Alignment.bottomRight,

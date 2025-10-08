@@ -55,7 +55,7 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(height: 30.h),
 
                 // Social Login Buttons
-                const SocialAccountsHelper(),
+                SocialAccountsHelper(),
 
                 SizedBox(height: 30.h),
 

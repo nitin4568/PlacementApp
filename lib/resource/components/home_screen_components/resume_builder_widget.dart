@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:placement/resource/components/buttons_components/simple_button.dart';
 import 'package:placement/resource/routes/routs.dart';
-import 'package:placement/view/home_page/resume_analyzer.dart';
 
 class ResumeBuilderWidget extends StatelessWidget {
   const ResumeBuilderWidget({super.key});

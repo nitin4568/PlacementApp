@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:placement/resource/components/buttons_components/black_continue_buttons.dart';
-import 'package:placement/resource/components/social_login/otp_box.dart';
 import 'package:placement/view_models/controller/auth_controller/email_varification_contoller.dart';
 
 class EmailVerificationScreen extends StatelessWidget {
@@ -10,36 +9,39 @@ class EmailVerificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<EmailVerificationController>();
-    final email = Get.arguments ?? "yourmail@email.com";
+    final controller = Get.put(EmailVerificationController());
+    final args = Get.arguments as Map<String, dynamic>?;
+
+    final fullName = args?['fullName'] ?? "";
+    final email = args?['email'] ?? "";
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        padding: const EdgeInsets.all(20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 40.h),
-            Text("Verify your email", style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold)),
-            SizedBox(height: 8.h),
-            Text("Enter the 5-digit OTP sent to\n$email", textAlign: TextAlign.center, style: TextStyle(fontSize: 16.sp, color: Colors.grey)),
-            SizedBox(height: 24.h),
-
-            OTPBox(
-              onChanged: (val) => controller.otpController.text = val,
-              onCompleted: (val) => controller.otpController.text = val,
+            Text(
+              "Verify your Email",
+              style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold),
             ),
-
-            SizedBox(height: 16.h),
-            GestureDetector(onTap: () {}, child: Text("Resend Code", style: TextStyle(fontSize: 14.sp, color: Colors.blue))),
-
-            const Spacer(),
+            SizedBox(height: 10.h),
+            Text(
+              "We have sent a verification link to $email. Please check your inbox.",
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10.h),
+            Text(
+              "If you don’t see the email in your inbox, check the Spam/Promotions folder and mark it as Not Spam.",
+              style: TextStyle(fontSize: 12.sp, color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 30.h),
             Obx(() => BlackContinueButton(
-              width: double.infinity,
-              height: 48.h,
-              title: "Verify",
+              title: "I have Verified",
               isLoading: controller.isLoading.value,
-              onPressed: controller.verifyOtp,
+              onPressed: () => controller.checkEmailVerified(fullName),
             )),
           ],
         ),

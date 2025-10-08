@@ -1,64 +1,61 @@
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-
-class ProfileMenu {
-  final String title;
-  final String subtitle;
-  final String image;
-  final void Function()? onTap;
-
-  ProfileMenu({
-    required this.title,
-    required this.subtitle,
-    required this.image,
-    this.onTap,
-  });
-}
+import '../../user_controller/user_controller.dart';
 
 class ProfileController extends GetxController {
-  // User Info
-  var name = "Ethan Carter".obs;
-  var email = "ethan.carter@email.com".obs;
-  var profileImage = "assets/png/user.png".obs;
+  final UserController userController = Get.find<UserController>();
 
-  // Menu Items
-  var menuItems = <ProfileMenu>[].obs;
+  // Editable fields
+  final nameController = TextEditingController();
+  final collegeController = TextEditingController();
+  final branchController = TextEditingController();
+  final courseController = TextEditingController();
+  final rollNoController = TextEditingController();
+
+  var profileImage = "assets/png/user.png".obs;
 
   @override
   void onInit() {
     super.onInit();
-    loadMenuItems();
+    loadUser();
   }
 
-  void loadMenuItems() {
-    menuItems.addAll([
-      ProfileMenu(
-        title: "My Courses",
-        subtitle: "View and manage your enrolled courses",
-        image: "assets/png/myCourses.png",
-        onTap: () {
-          // Handle navigation to My Courses
-        },
-      ),
-      ProfileMenu(
-        title: "My Tests",
-        subtitle: "Review your test history and performance",
-        image: "assets/png/mytest.png",
-        onTap: () {
-          // Handle navigation to My Tests
-        },
-      ),
-      ProfileMenu(
-        title: "Achievements",
-        subtitle: "Track your progress and unlock rewards",
-        image: "assets/png/achievements.png",
-        onTap: () {
-          // Handle navigation to Achievements
-        },
-      ),
-    ]);
+  void loadUser() {
+    final user = userController.user.value;
+    if (user != null) {
+      nameController.text = user.name ?? "";
+      collegeController.text = user.college ?? "";
+      branchController.text = user.branch ?? "";
+      courseController.text = user.course ?? "";
+      rollNoController.text = user.rollNo ?? "";
+
+      profileImage.value = user.profilePicture?.isNotEmpty == true
+          ? user.profilePicture!
+          : "assets/png/user.png";
+    }
   }
 
   void logout() {
     // Handle logout logic
+  }
+
+  /// Save edited info to UserController + Firestore
+  Future<void> saveProfile() async {
+    final user = userController.user.value;
+    if (user == null) return;
+
+    userController.updateName(nameController.text);
+    userController.updateCollege(collegeController.text);
+    userController.updateBranch(branchController.text);
+    userController.updateCourse(courseController.text);
+    userController.updateRollNo(rollNoController.text);
+
+    await userController.saveUserData();
+
+    Get.snackbar(
+      "Success",
+      "Profile updated successfully",
+      snackPosition: SnackPosition.BOTTOM,
+    );
   }
 }

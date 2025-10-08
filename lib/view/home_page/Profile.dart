@@ -1,150 +1,127 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:placement/resource/components/buttons_components/simple_button.dart';
+import 'package:placement/view/home_page/profile_section/edit_profile.dart';
+import 'package:placement/view/home_page/profile_section/save_video.dart';
 import 'package:placement/view/home_page/setting.dart';
-import 'package:placement/view_models/controller/home_controller/profile_controller.dart';
+import '../../view_models/controller/home_controller/profile_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ProfileController());
+    final controller = Get.find<ProfileController>();
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        centerTitle: true,
+        centerTitle: false,
         title: const Text(
           "Profile",
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
             icon: const Icon(Icons.settings, color: Colors.black),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsScreen()),
-              );
+              Get.to(() => const SettingsScreen());
             },
           )
-
         ],
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 20),
-          // Profile Image
-          Obx(
-                () => CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage(controller.profileImage.value),
-            ),
-          ),
-          const SizedBox(height: 16),
-          // Name
-          Obx(
-                () => Text(
-              controller.name.value,
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          const SizedBox(height: 4),
-          // Email
-          Obx(
-                () => Text(
-              controller.email.value,
-              style: const TextStyle(color: Colors.grey),
-            ),
-          ),
-          const SizedBox(height: 30),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          children: [
+            // Profile Image with first letter fallback
+            Obx(() {
+              final user = controller.userController.user.value;
+              final name = user?.name ?? "";
+              final image = controller.profileImage.value;
 
-          // Menu Items
-          Expanded(
-            child: Obx(
-                  () => ListView.separated(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemCount: controller.menuItems.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 16),
-                itemBuilder: (context, index) {
-                  final item = controller.menuItems[index];
-                  return InkWell(
-                    onTap: item.onTap,
-                    child: Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.title,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  item.subtitle,
-                                  style: const TextStyle(color: Colors.grey),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.asset(
-                              item.image,
-                              width: 80,
-                              height: 60,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ],
+              ImageProvider? avatarImage;
+
+              if (image.startsWith('http')) {
+                avatarImage = NetworkImage(image);
+              } else {
+                avatarImage = null; // show first letter
+              }
+
+              return CircleAvatar(
+                radius: 50,
+                backgroundColor: Colors.grey.shade400,
+                backgroundImage: avatarImage,
+                child: avatarImage == null
+                    ? Text(
+                  name.isNotEmpty ? name[0].toUpperCase() : "?",
+                  style: TextStyle(
+                    fontSize: 40.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                )
+                    : null,
+              );
+            }),
+            const SizedBox(height: 16),
+
+            // Name
+            Obx(() => Text(
+              controller.userController.user.value?.name ?? "",
+              style: TextStyle(
+                  fontSize: 20.sp, fontWeight: FontWeight.bold),
+            )),
+            const SizedBox(height: 4),
+
+            // Email
+            Obx(() => Text(
+              controller.userController.user.value?.email ?? "",
+              style: const TextStyle(color: Colors.grey),
+            )),
+            const SizedBox(height: 30),
+
+            // Buttons
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      Get.to(() => const SaveVideoScreen());
+                    },
+                    icon: const Icon(Icons.save, color: Colors.black),
+                    label: const Text(
+                      "Save Video",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
                     ),
-                  );
-                },
-              ),
-            ),
-          ),
-
-          // Logout Button
-          Container(
-            margin: const EdgeInsets.all(16),
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: controller.logout,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.grey.shade200,
-                foregroundColor: Colors.black,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey.shade300,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
                 ),
-                padding: const EdgeInsets.symmetric(vertical: 14),
-              ),
-              child: const Text(
-                "Logout",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-          )
-        ],
+                const SizedBox(width: 15),
+                Expanded(
+                  child: CustomButton(
+                    onPressed: () {
+                      Get.to(() => const EditProfileScreen());
+                    },
+                    text: 'Edit Profile',
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

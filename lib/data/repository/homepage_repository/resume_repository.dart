@@ -46,14 +46,12 @@ $base64File
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
 
-        // ✅ Extract text safely from Gemini-style response
         final candidates = data['candidates'];
         if (candidates != null && candidates.isNotEmpty) {
           final text =
               candidates[0]['content']?['parts']?[0]?['text'] ?? '';
 
-          // Now parse the text if it contains structured info (you can refine this)
-          // Example: parse numbers, summary, recommendations
+
           final atsScore = _extractAtsScore(text);
           final summary = _extractSummary(text);
           final recommendations = _extractRecommendations(text);

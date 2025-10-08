@@ -60,7 +60,11 @@ class AppRoutes {
     GetPage(
       name: AppRouteNames.profile,
       page: () => ProfileScreen(),
-      binding: ProfileBinding(),
+      bindings: [
+        ProfileBinding(),
+        EditProfileBinding(),
+        SaveVideoBinding(),
+      ],
     ),
     GetPage(
       name: AppRouteNames.Resume,

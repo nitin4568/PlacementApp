@@ -11,7 +11,9 @@ import 'package:placement/view_models/controller/home_controller/lecture_control
 import 'package:placement/view_models/controller/home_controller/mock_tests_controller.dart';
 import 'package:placement/view_models/controller/home_controller/profile_controller.dart';
 import 'package:placement/view_models/controller/home_controller/resume_controler.dart';
+import 'package:placement/view_models/controller/home_controller/save_video_controller.dart';
 import 'package:placement/view_models/controller/home_controller/upcoming_controller.dart';
+import 'package:placement/view_models/user_controller/user_controller.dart';
 
 class LoginBinding extends Bindings {
   @override
@@ -69,6 +71,17 @@ class ProfileBinding extends Bindings {
     Get.lazyPut(() => ProfileController());
   }
 }
+class EditProfileBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => ProfileController());
+  }
+}class SaveVideoBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut(() => VideoController());
+  }
+}
 class PlacementDrivePlacementDriveBinding extends Bindings {
   @override
   void dependencies() {
@@ -87,12 +100,20 @@ class ResumeBinding extends Bindings {
     Get.lazyPut(() => ResumeController ());
   }
 }
+class UserControllerBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.lazyPut<    UserController>(() =>   UserController ());
+  }
+}
+
 class UpcomingEventBinding extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => UpcomingEventController(
       repository: UpcomingEventRepository(),
     ));
+
 
   }
 }

@@ -9,7 +9,6 @@ class AppAssets {
   static const String signup = 'assets/png/signup.png';
 
   // 🔹 Dashboard Assets
-  static const String placementDrive = 'assets/png/placementdrive.png';
 
   // 🔹 Bottom Navbar Icons
   static const String home = 'assets/svg/home.svg';

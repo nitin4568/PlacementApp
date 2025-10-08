@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:placement/resource/Images/images.dart'; // Your signup image
+import 'package:placement/resource/Images/images.dart';
 import 'package:placement/resource/components/buttons_components/black_continue_buttons.dart';
 import 'package:placement/resource/components/text_feild/CustomTextField.dart';
 import 'package:placement/view_models/controller/auth_controller/signup_controller.dart';
@@ -9,7 +9,7 @@ import 'package:placement/view_models/controller/auth_controller/signup_controll
 class SignupScreen extends StatelessWidget {
   SignupScreen({super.key});
 
-  final SignupController controller = Get.find<SignupController>(); // Use Get.find for consistency
+  final SignupController controller = Get.put(SignupController());
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,6 @@ class SignupScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Top Signup Image
               Center(
                 child: Image.asset(
                   AppAssets.signup,
@@ -29,106 +28,52 @@ class SignupScreen extends StatelessWidget {
                   fit: BoxFit.contain,
                 ),
               ),
-
               SizedBox(height: 10.h),
-
-              // Title & Subtitle
               Center(
                 child: Text(
                   "Create Account",
-                  style: TextStyle(
-                    fontSize: 22.sp,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.bold),
                 ),
               ),
               Center(
                 child: Text(
-                  "Join Now to access placement new resources",
+                  "Join now to access placement resources",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 12.sp,
-                    fontWeight: FontWeight.w400,
-                  ),
+                  style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400),
                 ),
               ),
-
               SizedBox(height: 20.h),
-
-              // Form Fields
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      CustomTextField(
-                        controller: controller.fullNameController,
-                        hintText: "Full Name",
-                      ),
+                      CustomTextField(controller: controller.fullNameController, hintText: "Full Name"),
                       SizedBox(height: 15.h),
-
-                      CustomTextField(
-                        controller: controller.emailController,
-                        hintText: "Email",
-                      ),
+                      CustomTextField(controller: controller.emailController, hintText: "Email"),
                       SizedBox(height: 15.h),
-
-                      CustomTextField(
-                        controller: controller.passwordController,
-                        hintText: "Password",
-                        obscureText: true,
-                      ),
+                      CustomTextField(controller: controller.passwordController, hintText: "Password", obscureText: true),
                       SizedBox(height: 15.h),
-
-                      CustomTextField(
-                        controller: controller.confirmPasswordController,
-                        hintText: "Confirm Password",
-                        obscureText: true,
-                      ),
+                      CustomTextField(controller: controller.confirmPasswordController, hintText: "Confirm Password", obscureText: true),
                       SizedBox(height: 15.h),
-
-                      CustomTextField(
-                        controller: controller.collegeController,
-                        hintText: "College / University Name",
-                      ),
+                      CustomTextField(controller: controller.collegeController, hintText: "College / University Name"),
                       SizedBox(height: 15.h),
-
-                      CustomTextField(
-                        controller: controller.branchController,
-                        hintText: "Branch / Department",
-                      ),
+                      CustomTextField(controller: controller.branchController, hintText: "Branch / Department"),
                       SizedBox(height: 15.h),
-
-                      CustomTextField(
-                        controller: controller.courseController,
-                        hintText: "Course / Degree",
-                      ),
+                      CustomTextField(controller: controller.courseController, hintText: "Course / Degree"),
                       SizedBox(height: 15.h),
-
-                      CustomTextField(
-                        controller: controller.rollNoController,
-                        hintText: "University Roll No.",
-                      ),
+                      CustomTextField(controller: controller.rollNoController, hintText: "University Roll No."),
                       SizedBox(height: 15.h),
-
-                      CustomTextField(
-                        controller: controller.phoneController,
-                        hintText: "Phone Number",
-                      ),
+                      CustomTextField(controller: controller.phoneController, hintText: "Phone Number"),
                       SizedBox(height: 30.h),
                     ],
                   ),
                 ),
               ),
-
-              // Sign Up Button
               Obx(() => BlackContinueButton(
                 title: "Sign Up",
                 isLoading: controller.isLoading.value,
-                onPressed: () {
-                  controller.signup();
-                },
+                onPressed: controller.signup,
               )),
-
               SizedBox(height: 20.h),
             ],
           ),

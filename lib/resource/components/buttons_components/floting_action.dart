@@ -16,13 +16,13 @@ class LottieFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onPressed, // button ki tarah kaam karega
+      onTap: onPressed,
       child: SizedBox(
         width: size,
         height: size,
         child: Lottie.asset(
           assetPath,
-          repeat: true,   // continuous animation
+          repeat: true,
           reverse: false,
           animate: true,
         ),

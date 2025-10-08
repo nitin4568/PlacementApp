@@ -94,26 +94,18 @@ class PlacementDriveWidget extends StatelessWidget {
               /// Right side: image
               ClipRRect(
                 borderRadius: BorderRadius.circular(12.r),
-                child: job.image.startsWith('http')
-                    ? Image.network(
-                  job.image,
+                child: Container(
                   width: 80.w,
                   height: 80.h,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) => Image.asset(
-                    'assets/png/placementdrive.png',
-                    width: 80.w,
-                    height: 80.h,
-                    fit: BoxFit.cover,
+                  color: Colors.grey.shade200,
+                  child: Icon(
+                    Icons.business,
+                    size: 40.sp,
+                    color: Colors.grey,
                   ),
-                )
-                    : Image.asset(
-                  job.image,
-                  width: 80.w,
-                  height: 80.h,
-                  fit: BoxFit.cover,
                 ),
-              ),
+              )
+
             ],
           ),
         ),
