@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:placement/resource/dependency_inject/dependency_injection.dart';
 import 'package:placement/resource/routes/app_routes.dart';
 import 'package:placement/resource/routes/routs.dart';
@@ -23,19 +24,22 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Lock portrait orientation
+
+  await dotenv.load(fileName: ".env");
+
+
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-  // Initialize Firebase
+
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // Initialize GetStorage for local storage
+
   await GetStorage.init();
 
-  // Setup background messaging
+
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
-  // Initialize Dependency Injection
+
   DependencyInjection.init();
 
   runApp(const MyApp());
@@ -56,10 +60,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          // If you want to start with LectureScreen for testing saved videos:
-          // home: LectureScreen(),
 
-          // If you want to use your full app routing:
           initialRoute: AppRouteNames.login,
           getPages: AppRoutes.appRoutes(),
         );
