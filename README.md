@@ -1,21 +1,223 @@
-<<<<<<< HEAD
-# placement
+# 🚀 Placement Preparation App
 
-A new Flutter project.
+A modern and responsive placement preparation application built using **Flutter** with **MVVM Architecture** and **GetX State Management**.
 
-## Getting Started
+The app helps students prepare for placements with aptitude practice, DSA resources, resume analysis, interview preparation, company updates, and AI-powered assistance.
 
-This project is a starting point for a Flutter application.
+---
 
-A few resources to get you started if this is your first Flutter project:
+# ✨ Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- 📚 Placement Preparation Dashboard
+- 💻 DSA Learning Resources
+- 📝 Resume ATS Analysis
+- 🤖 AI-powered Assistance using Gemini API
+- 🔔 Company & Job Notifications
+- 📄 Resume Builder
+- 📊 Mock Test & Quiz System
+- 👤 User Authentication
+- ☁️ Firebase & Supabase Integration
+- ⚡ Fast & Reactive UI using GetX
+- 📱 Fully Responsive Design
+- 🌙 Clean Modern UI
+- 🔄 Real-Time Data Handling
+- 🧠 MVVM Architecture
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-=======
-# PlacementApp
-Placement App built in Flutter using GetX for state management.  Features include user authentication, lecture tracking, mock tests, and placement drives.
->>>>>>> 59d7c17da835095354a9c103c6d972cb91fb0a14
+---
+
+# 🛠️ Tech Stack
+
+| Technology | Usage |
+|---|---|
+| Flutter | Cross-platform App Development |
+| Dart | Programming Language |
+| GetX | State Management & Navigation |
+| MVVM | Clean Architecture |
+| Firebase | Authentication & Notifications |
+| Supabase | Backend Services |
+| Node.js | Backend APIs |
+| SQLite | Local Database |
+| Gemini API | AI Features |
+| REST APIs | Data Fetching |
+| ScreenUtil | Responsive UI |
+
+---
+
+# 📁 Clean MVVM Project Structure
+
+```bash
+lib/
+│
+├── main.dart
+│
+├── app/
+│   ├── routes/
+│   ├── bindings/
+│   └── theme/
+│
+├── data/
+│   ├── models/
+│   ├── repositories/
+│   └── services/
+│
+├── modules/
+│   ├── auth/
+│   ├── home/
+│   ├── aptitude/
+│   ├── dsa/
+│   ├── resume/
+│   ├── jobs/
+│   ├── profile/
+│   └── settings/
+│
+├── core/
+│   ├── constants/
+│   ├── utils/
+│   └── widgets/
+│
+└── assets/
+    ├── images/
+    ├── icons/
+    ├── fonts/
+    └── screenshots/
+```
+
+---
+
+# 🏗️ Architecture — MVVM
+
+The project follows **MVVM (Model-View-ViewModel)** architecture for scalable and maintainable code.
+
+## 🔹 Model
+Handles:
+- API response models
+- JSON serialization/deserialization
+- Data structures
+
+## 🔹 View
+Contains:
+- UI screens
+- Widgets
+- Responsive layouts
+
+## 🔹 ViewModel (Controller)
+Handles:
+- Business logic
+- API calls
+- State management using GetX
+
+---
+
+# ⚡ State Management — GetX
+
+GetX is used for:
+
+- Reactive State Management
+- Route Navigation
+- Dependency Injection
+- Performance Optimization
+
+---
+
+# ☁️ Backend Integration
+
+The app uses:
+
+- Firebase Authentication
+- Supabase Backend
+- Node.js APIs
+- SQLite Local Storage
+- REST APIs
+
+---
+
+# 🤖 AI Integration
+
+Gemini API is used for:
+
+- Resume Analysis
+- ATS Score Suggestions
+- AI Chat Assistance
+- Smart Recommendations
+
+---
+
+# 📱 Responsive UI
+
+The app uses:
+
+- flutter_screenutil
+- Adaptive layouts
+- Responsive font scaling
+
+---
+
+# 📸 Screenshots
+
+## 🖼️ Screenshot Layout
+
+<p align="center">
+  <img src="assets/screenshots/home.jpeg" width="250"/>
+  <img src="assets/screenshots/player.jpeg" width="250"/>
+  <img src="assets/screenshots/search.jpeg" width="250"/>
+</p>
+
+---
+
+# ⚙️ Installation
+
+## Clone Repository
+
+
+
+## Install Dependencies
+
+```bash
+flutter pub get
+```
+
+## Run Project
+
+```bash
+flutter run
+```
+
+---
+
+# 📦 Dependencies
+
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+
+  get:
+  firebase_core:
+  firebase_auth:
+  supabase_flutter:
+  sqflite:
+  http:
+  flutter_screenutil:
+  shared_preferences:
+  cached_network_image:
+  flutter_svg:
+  shimmer:
+```
+
+---
+
+# 🌟 Future Improvements
+
+- 🎯 AI Mock Interviews
+- 📊 Advanced Analytics
+- 🌐 Multi-language Support
+- 📹 Video Learning Support
+- 🔥 Personalized Recommendations
+
+---
+
+# 👨‍💻 Developer
+
+## Nitin Gautam
+
+Flutter Developer • Firebase • Node.js • Supabase • GetX • MVVM
