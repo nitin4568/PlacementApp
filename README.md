@@ -1,4 +1,4 @@
-# 🚀 Placement Preparation App
+# 🚀 Placement Preparation App 
 
 A modern and responsive placement preparation application built using **Flutter** with **MVVM Architecture** and **GetX State Management**.
 
@@ -158,7 +158,7 @@ The app uses:
 
 <p align="center">
   <img src="assets/screenshots/home.jpeg" width="250"/>
-  <img src="assets/screenshots/player.jpeg" width="250"/>
+  <img src="assets/screenshots/play.jpeg" width="250"/>
   <img src="assets/screenshots/search.jpeg" width="250"/>
 </p>
 
@@ -217,6 +217,8 @@ dependencies:
 ---
 
 # 👨‍💻 Developer
+
+
 
 ## Nitin Gautam
 
